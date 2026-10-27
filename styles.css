@@ -205,21 +205,22 @@ body.gate-locked{ overflow:hidden; height:100%; }
 .scene::after{
   content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
   background-repeat:repeat; background-position:center top; background-size:64px 64px;
-  -webkit-mask-image:radial-gradient(125% 85% at 50% 0%, #000 0%, rgba(0,0,0,.4) 50%, rgba(0,0,0,.14) 100%);
-  mask-image:radial-gradient(125% 85% at 50% 0%, #000 0%, rgba(0,0,0,.4) 50%, rgba(0,0,0,.14) 100%);
+  /* Desen kenarlarda yaşar, metnin oturduğu orta sütunda tamamen silinir. */
+  -webkit-mask-image:radial-gradient(ellipse 62% 56% at 50% 50%, transparent 0%, rgba(0,0,0,.35) 68%, #000 100%);
+  mask-image:radial-gradient(ellipse 62% 56% at 50% 50%, transparent 0%, rgba(0,0,0,.35) 68%, #000 100%);
 }
 .scene::before{ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='%23B08841' stroke-width='.7' opacity='.32'%3E%3Cpath d='M0 20 L20 0 M44 0 L64 20 M64 44 L44 64 M20 64 L0 44 M20 0 L44 0 M64 20 L64 44 M44 64 L20 64 M0 44 L0 20'/%3E%3C/g%3E%3C/svg%3E"); opacity:.17; }
 .scene::after{ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='%23B08841' stroke-width='.8'%3E%3Crect x='21' y='21' width='22' height='22'/%3E%3Crect x='21' y='21' width='22' height='22' transform='rotate(45 32 32)'/%3E%3C/g%3E%3C/svg%3E"); opacity:var(--pat, 0); transition:opacity 1.2s var(--e); }
 
 /* desen ilerledikçe çoğalır — iki hayatın bir deseni tamamlaması */
-.invite .scene:nth-child(1){ --pat:.04; }
-.invite .scene:nth-child(2){ --pat:.10; }
-.invite .scene:nth-child(3){ --pat:.16; }
-.invite .scene:nth-child(4){ --pat:.22; }
-.invite .scene:nth-child(5){ --pat:.29; }
-.invite .scene:nth-child(6){ --pat:.36; }
-.invite .scene:nth-child(7){ --pat:.44; }
-.invite .scene:nth-child(8){ --pat:.52; }
+.invite .scene:nth-child(1){ --pat:.03; }
+.invite .scene:nth-child(2){ --pat:.07; }
+.invite .scene:nth-child(3){ --pat:.11; }
+.invite .scene:nth-child(4){ --pat:.15; }
+.invite .scene:nth-child(5){ --pat:.19; }
+.invite .scene:nth-child(6){ --pat:.23; }
+.invite .scene:nth-child(7){ --pat:.27; }
+.invite .scene:nth-child(8){ --pat:.31; }
 
 .scene{
   position:relative; min-height:100svh;
@@ -509,9 +510,9 @@ body.gate-locked{ overflow:hidden; height:100%; }
 .closing__night::after{
   content:""; position:absolute; inset:0;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='%23B08841' stroke-width='.8'%3E%3Crect x='21' y='21' width='22' height='22'/%3E%3Crect x='21' y='21' width='22' height='22' transform='rotate(45 32 32)'/%3E%3Cpath d='M0 20 L20 0 M44 0 L64 20 M64 44 L44 64 M20 64 L0 44' opacity='.5'/%3E%3C/g%3E%3C/svg%3E");
-  background-size:64px 64px; opacity:.3;
-  -webkit-mask-image:radial-gradient(120% 80% at 50% 0%, #000 0%, rgba(0,0,0,.35) 55%, rgba(0,0,0,.1) 100%);
-  mask-image:radial-gradient(120% 80% at 50% 0%, #000 0%, rgba(0,0,0,.35) 55%, rgba(0,0,0,.1) 100%);
+  background-size:64px 64px; opacity:.2;
+  -webkit-mask-image:radial-gradient(ellipse 60% 54% at 50% 50%, transparent 0%, rgba(0,0,0,.3) 68%, #000 100%);
+  mask-image:radial-gradient(ellipse 60% 54% at 50% 50%, transparent 0%, rgba(0,0,0,.3) 68%, #000 100%);
 }
 
 .closing__rose{
@@ -519,7 +520,7 @@ body.gate-locked{ overflow:hidden; height:100%; }
   transform:translate(-50%,-50%); z-index:1; pointer-events:none; overflow:visible;
   opacity:0; transition:opacity .9s var(--e) .25s;
 }
-.scene--closing.is-active .closing__rose{ opacity:.5; }
+.scene--closing.is-active .closing__rose{ opacity:.24; }
 /* kapanışta gül açık başlar… */
 .closing__rose .petal{
   transform:rotate(calc(var(--a) * 1deg)) scale(1); opacity:1;
@@ -530,11 +531,11 @@ body.gate-locked{ overflow:hidden; height:100%; }
   transform:rotate(calc(var(--a) * 1deg + 24deg)) scale(.3); opacity:.8;
 }
 .closing__heart{
-  fill:var(--terra); opacity:0;
+  fill:none; stroke:var(--terra); stroke-width:2.2; vector-effect:non-scaling-stroke; opacity:0;
   transform-box:view-box; transform-origin:100px 100px; transform:scale(3.2);
   transition:transform 1.3s var(--e) .9s, opacity 1s var(--e) .9s;
 }
-.scene--closing.is-active .closing__heart{ transform:scale(1); opacity:.9; }
+.scene--closing.is-active .closing__heart{ transform:scale(1); opacity:.5; }
 
 .closing__arch{
   position:absolute; z-index:2; pointer-events:none;
@@ -686,6 +687,6 @@ body.gate-locked{ overflow:hidden; height:100%; }
   .rise{ opacity:1 !important; transform:none !important; }
   .frame svg{ stroke-dashoffset:0 !important; opacity:.24 !important; }
   .frame--strong svg{ opacity:.42 !important; }
-  .closing__rose{ opacity:.5 !important; }
+  .closing__rose{ opacity:.24 !important; }
   .closing__night{ opacity:1 !important; }
 }
