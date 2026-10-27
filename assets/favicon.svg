@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#15325E"/>
+  <g transform="translate(32 32)">
+    <g fill="#B08841" opacity=".85">
+      <rect x="-18" y="-18" width="36" height="36" rx="2"/>
+      <rect x="-18" y="-18" width="36" height="36" rx="2" transform="rotate(45)"/>
+    </g>
+    <path d="M0 -13 C 6 -5 11 0 16 3 C 11 6 6 11 0 19 C -6 11 -11 6 -16 3 C -11 0 -6 -5 0 -13 Z" fill="#C05A2B" opacity=".9" transform="translate(0 -2) scale(.62)"/>
+    <text x="0" y="7" text-anchor="middle" font-family="Georgia,serif" font-size="20" fill="#F6EFE1">E</text>
+  </g>
+</svg>
