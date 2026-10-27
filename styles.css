@@ -4,6 +4,23 @@
    sekiz köşeli yıldız, bol boşluk, tipografi öncelikli.
    ============================================================ */
 
+/* Yazı tipi yüklenene kadar kullanılan yedek, Cormorant'ın genişliğine
+   ayarlandı (ölçüm: yedek %15,6 daha genişti). Böylece font gelince sayfa sıçramıyor. */
+@font-face{
+  font-family:"Cormorant Yedek";
+  src:local("Iowan Old Style"), local("Times New Roman"), local("Georgia"), local("Noto Serif"), local("Droid Serif");
+  size-adjust:86.5%;
+  font-weight:300 500;
+  font-style:normal;
+}
+@font-face{
+  font-family:"Cormorant Yedek";
+  src:local("Iowan Old Style Italic"), local("Times New Roman Italic"), local("Georgia Italic"), local("Noto Serif Italic");
+  size-adjust:86.5%;
+  font-weight:300 500;
+  font-style:italic;
+}
+
 :root{
   --ivory:      #FBF7F0;
   --ivory-2:    #F4EEE2;
@@ -18,7 +35,7 @@
   --text:       #263751;
   --muted:      #63708C;
 
-  --f-d: "Cormorant Garamond", "Iowan Old Style", "Times New Roman", serif;
+  --f-d: "Cormorant Garamond", "Cormorant Yedek", "Times New Roman", serif;
   --f-s: "Jost", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   --pad: clamp(46px, 12.5vw, 100px);
@@ -541,6 +558,9 @@ body.gate-locked{ overflow:hidden; height:100%; }
   font-size:clamp(20px,5vw,34px); letter-spacing:.04em; color:var(--navy); line-height:1.35;
 }
 .closing__n i{ font-style:italic; color:var(--gold); padding:0 .14em; }
+/* İsimler asla kendi içinde bölünmesin; satır gerekirse "&" boşluğundan kırılsın */
+.closing__n .ad,
+.sign .ad{ white-space:nowrap; }
 .closing__d{ margin:0 0 clamp(36px,7vw,48px); font-size:10px; letter-spacing:.38em; text-transform:uppercase; color:var(--terra); }
 
 .mini{ margin-top:30px; display:flex; gap:12px; justify-content:center; align-items:center; color:rgba(128,140,158,.5); font-size:10px; }
@@ -600,6 +620,57 @@ body.gate-locked{ overflow:hidden; height:100%; }
 }
 @media (max-width:360px){
   .count__c span{ font-size:8px; letter-spacing:.14em; }
+}
+
+
+/* ============================================================
+   KISA EKRANLAR — dikey yerleşimi sıkıştır
+   Sorun: dikey boşluklar yalnızca genişliğe bağlıydı; 700–800 px
+   yüksekliklerde katılım ve giriş sayfaları ekrana sığmıyordu.
+   ============================================================ */
+@media (max-height:800px){
+  .scene{ padding-top:clamp(56px,9vh,86px); padding-bottom:clamp(50px,8vh,78px); }
+
+  .hero__date{ margin-top:clamp(14px,2.6vh,24px); }
+  .count{ margin-top:clamp(14px,2.6vh,24px); padding:clamp(10px,1.8vh,16px) 0; }
+  .hero__place{ margin-top:clamp(14px,2.4vh,22px); }
+  .cue{ margin-top:clamp(18px,3vh,34px); }
+  .cue__line{ height:clamp(22px,3.6vh,38px); }
+
+  .mark{ margin-bottom:clamp(16px,3vh,30px); }
+  .rule{ margin:clamp(18px,3.4vh,40px) auto; }
+  .label{ margin-bottom:clamp(16px,3.2vh,34px); }
+
+  .scene--rsvp{ padding-top:clamp(44px,6.5vh,66px); padding-bottom:clamp(40px,6vh,60px); }
+  .scene--rsvp .label{ margin-bottom:clamp(10px,2vh,18px); }
+  .scene--rsvp .rsvp__t{ margin-bottom:clamp(14px,2.4vh,22px); }
+  .scene--rsvp .field{ margin-bottom:clamp(9px,1.7vh,15px); }
+  .scene--rsvp .field label,
+  .scene--rsvp .field legend{ margin-bottom:5px; }
+  .scene--rsvp .rsvp input[type="text"],
+  .scene--rsvp .rsvp input[type="number"],
+  .scene--rsvp .rsvp textarea{ padding:7px 2px; }
+  .scene--rsvp .choice span{ padding:9px 8px; }
+  .scene--rsvp .stepper__b{ height:36px; }
+  .scene--rsvp .btn--wide{ padding:13px 28px; }
+
+  /* Katılım sayfası kısa ekranda formla baştan sona doluyor; kemerin üst kavisi
+     başlığı ve düğmeyi dışarıda bırakıyordu. Bu sayfada ve yalnızca bu yükseklikte
+     çerçeveyi ince bir dikdörtgene indiriyoruz — kart hissi korunuyor, çakışma bitiyor. */
+  .scene--rsvp .frame svg{ display:none; }
+  .scene--rsvp .frame{ border:1px solid var(--gold-faint); }
+}
+
+@media (max-height:700px){
+  .scene{ padding-top:clamp(40px,6.5vh,56px); padding-bottom:clamp(36px,6vh,50px); }
+  .cue{ margin-top:clamp(14px,2.4vh,24px); }
+  .cue__line{ height:clamp(18px,2.8vh,28px); }
+  .verse p{ margin-bottom:clamp(14px,2.6vh,22px); }
+
+  .scene--rsvp{ padding-top:clamp(30px,4.8vh,44px); padding-bottom:clamp(26px,4.2vh,38px); }
+  .scene--rsvp .field{ margin-bottom:clamp(7px,1.3vh,12px); }
+  .scene--rsvp .choice span{ padding:8px 8px; }
+  .scene--rsvp .stepper__b{ height:34px; }
 }
 
 /* ============================================================
