@@ -437,6 +437,41 @@
   if (musicBtn) {
     musicBtn.addEventListener('click', function () { playing ? stopMusic() : startMusic(false); });
   }
+
+  /* ------------------------------------------------------------
+     Müziği mümkün olan en erken anda başlat.
+     Tarayıcılar sesli otomatik oynatmayı kullanıcı etkileşimi olmadan
+     engelliyor (Chrome, Safari, Firefox). Bu yüzden iki aşamalı:
+       1) Doğrudan dene — bazı cihazlarda izin verilir, verilmezse sessizce düşer.
+       2) İzin verilmediyse ilk dokunuş/kaydırma anında devreye gir.
+     Pratikte bu, misafirin güle dokunduğu an demektir.
+     ------------------------------------------------------------ */
+  (function otomatikSes() {
+    if (!musicBtn) return;
+    var kuruldu = false;
+    var olaylar = ['pointerdown', 'touchstart', 'keydown', 'wheel', 'scroll'];
+
+    function temizle() {
+      olaylar.forEach(function (t) { document.removeEventListener(t, ilkDokunus, true); });
+    }
+    function ilkDokunus() {
+      if (kuruldu) return;
+      kuruldu = true;
+      temizle();
+      startMusic(true);
+    }
+
+    // 1) doğrudan deneme
+    startMusic(true);
+
+    // 2) engellendiyse ilk etkileşimde
+    setTimeout(function () {
+      if (playing) return;
+      olaylar.forEach(function (t) {
+        document.addEventListener(t, ilkDokunus, { capture: true, passive: true });
+      });
+    }, 400);
+  })();
   document.addEventListener('visibilitychange', function () {
     if (document.hidden && playing) { stopEnvelope(); if (audioEl) audioEl.pause(); synthStop(); }
     else if (!document.hidden && playing) { if (audioEl && audioEl.src && audioEl.readyState) { audioEl.play().then(function(){ stopEnvelope(); envelope(); }).catch(function(){}); } else if (!synthTimer) synthStart(); }
