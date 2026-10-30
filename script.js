@@ -8,7 +8,7 @@
   /* ---------------- YAPILANDIRMA ----------------
      Düzenlemek için yalnızca bu bölümü değiştirin.        */
   var CONFIG = {
-    siteUrl: 'https://semihefe55.github.io/emine-cemile-emir-esad/',
+    siteUrl: 'https://emine-cemile-emir-esad.vercel.app/',
     couple: 'Emine Cemile & Emir Es’ad',
     // Katılım bildirimlerinin ulaşacağı WhatsApp numarası (ülke kodu ile, sadece rakam).
     // Boş bırakılırsa WhatsApp kişi seçme ekranı açılır.
