@@ -1,37 +1,25 @@
 <!DOCTYPE html><html lang="tr"><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Jost:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{width:1200px;height:630px;overflow:hidden;font-family:"Jost",sans-serif;position:relative;
- background:radial-gradient(110% 70% at 50% -10%,#FFFDF8 0%,rgba(255,253,248,0) 60%),
-            radial-gradient(90% 60% at 50% 110%,#F2EADB 0%,rgba(242,234,219,0) 65%),#FBF7F0;
+ background:radial-gradient(110% 70% at 50% -10%,#FFFDF8 0%,rgba(255,253,248,0) 60%),#FBF7F0;
  display:grid;place-items:center}
-.lattice{position:absolute;inset:0;opacity:.3;
- background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64'%3E%3Cg fill='none' stroke='%23B08841' stroke-width='.7' opacity='.3'%3E%3Cpath d='M0 20 L20 0 M44 0 L64 20 M64 44 L44 64 M20 64 L0 44 M20 0 L44 0 M64 20 L64 44 M44 64 L20 64 M0 44 L0 20'/%3E%3C/g%3E%3C/svg%3E");
- -webkit-mask-image:radial-gradient(100% 80% at 50% 0%,#000 0%,rgba(0,0,0,.3) 55%,rgba(0,0,0,.1) 100%)}
-.arch{position:absolute;left:50%;top:40px;bottom:36px;width:580px;transform:translateX(-50%)}
-.arch svg{width:100%;height:100%;fill:none;stroke:#B08841;stroke-width:1;opacity:.45}
-.c{position:relative;text-align:center;width:470px}
-.label{font-size:13px;letter-spacing:.44em;text-transform:uppercase;color:#B08841;margin-bottom:34px}
-h1{font-family:"Cormorant Garamond",serif;font-weight:300;line-height:1.06;color:#13294B}
-.n{display:block;font-size:54px;letter-spacing:.085em;padding-left:.085em}
-.amp{display:block;font-size:27px;font-style:italic;color:#B08841;margin:8px 0 6px}
-.date{margin-top:34px;font-size:13px;letter-spacing:.38em;text-transform:uppercase;color:#B75B33}
-.rule{display:flex;align-items:center;justify-content:center;gap:16px;margin:30px 0}
-.rule i{display:block;width:80px;height:1px;background:rgba(176,136,65,.42)}
-.rule b{display:block;width:8px;height:8px;background:#B75B33;opacity:.75;
- clip-path:polygon(50% 0,61% 28%,89% 11%,72% 39%,100% 50%,72% 61%,89% 89%,61% 72%,50% 100%,39% 72%,11% 89%,28% 61%,0 50%,28% 39%,11% 11%,39% 28%)}
-.cta{display:inline-block;padding:14px 40px;border:1px solid rgba(176,136,65,.55);
- font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:#13294B}
+.m{position:absolute;display:block;height:auto}
+.tl{top:0;left:0;width:300px}.tr{top:0;right:0;width:300px;transform:scaleX(-1)}
+.bl{bottom:0;left:0;width:305px}.br{bottom:0;right:0;width:305px;transform:scaleX(-1)}
+.c{position:relative;text-align:center;width:640px}
+h1{font-family:"Great Vibes",cursive;font-weight:400;line-height:1.02;color:#13294B}
+.n{display:block;font-size:104px;white-space:nowrap}
+.amp{display:block;font-size:56px;color:#B08841;line-height:1}
+.date{margin-top:22px;font-size:17px;font-weight:400;letter-spacing:.3em;text-transform:uppercase;color:#13294B}
+.inv{margin-top:14px;font-size:20px;letter-spacing:.2em;color:#A8282E}
 </style></head><body>
-<div class="lattice"></div>
-<div class="arch"><svg viewBox="0 0 100 140" preserveAspectRatio="none">
-<path d="M50 3 C 58.5 3 61.5 11.5 69 14 C 82 18.2 93 25 93 47 L 93 137 L 7 137 L 7 47 C 7 25 18 18.2 31 14 C 38.5 11.5 41.5 3 50 3 Z"/></svg></div>
+<img class="m tl" src="assets/motif-tl.png"><img class="m tr" src="assets/motif-tl.png">
+<img class="m bl" src="assets/motif-bl.png"><img class="m br" src="assets/motif-bl.png">
 <div class="c">
-  <p class="label">Düğün Davetiyesi</p>
-  <h1><span class="n">Emine Cemile</span><span class="amp">&amp;</span><span class="n">Emir Esad</span></h1>
-  <p class="date">29 Kasım 2026</p>
-  <div class="rule"><i></i><b></b><i></i></div>
-  <span class="cta">Davetiyeyi Aç</span>
+  <h1><span class="n">Emine Cemile</span><span class="amp">&amp;</span><span class="n">Emir Es’ad</span></h1>
+  <p class="date">Kına 27 Kasım · Düğün 29 Kasım 2026</p>
+  <p class="inv">Düğünümüze davetlisiniz.</p>
 </div>
 </body></html>

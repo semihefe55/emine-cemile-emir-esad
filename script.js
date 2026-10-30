@@ -9,24 +9,35 @@
      Düzenlemek için yalnızca bu bölümü değiştirin.        */
   var CONFIG = {
     siteUrl: 'https://semihefe55.github.io/emine-cemile-emir-esad/',
-    couple: 'Emine Cemile & Emir Esad',
-    venue: 'Vizyon Davet Salonu, Pendik, Kurtköy / İstanbul',
-    mapsQuery: 'Vizyon Davet Salonu Kurtköy Pendik İstanbul',
+    couple: 'Emine Cemile & Emir Es’ad',
     // Katılım bildirimlerinin ulaşacağı WhatsApp numarası (ülke kodu ile, sadece rakam).
     // Boş bırakılırsa WhatsApp kişi seçme ekranı açılır.
     rsvpWhatsapp: '905541863452',
     // İsteğe bağlı: Formspree/Google Form gibi bir POST adresi. Boşsa form yerel olarak saklanır.
     rsvpEndpoint: '',
+    // İletişim: numarası boş olanlar sayfada gösterilmez. Örn. tel: '0532 000 00 00'
+    contacts: [
+      { name: 'Mesut Gürses', tel: '+90 535 602 04 29' },
+      { name: 'İbrahim Çelen', tel: '+90 533 630 03 88' }
+    ],
     events: {
       kina: {
-        title: 'Kına Gecesi — Emine Cemile & Emir Esad',
-        start: '2026-11-21T19:00:00+03:00',
-        end:   '2026-11-21T23:30:00+03:00'
+        label: 'Kına',
+        title: 'Kına Gecesi — Emine Cemile & Emir Es’ad',
+        start: '2026-11-27T19:00:00+03:00',
+        end:   '2026-11-27T23:00:00+03:00',
+        venue: 'Sebla Davet Salonu, Atalar, Üsküdar Cd. No:148, Kartal / İstanbul',
+        mapsQuery: 'Sebla Davet Salonu Atalar Üsküdar Cd. No:148 Kartal İstanbul',
+        note: 'Kına gecesi hanımlar arasında olacaktır.'
       },
       dugun: {
-        title: 'Düğün — Emine Cemile & Emir Esad',
-        start: '2026-11-29T19:00:00+03:00',
-        end:   '2026-11-29T23:30:00+03:00'
+        label: 'Düğün',
+        title: 'Düğün — Emine Cemile & Emir Es’ad',
+        start: '2026-11-29T13:30:00+03:00',
+        end:   '2026-11-29T17:00:00+03:00',
+        venue: 'Vizyon Davet Salonu, Yenişehir Mh., Mustafa Akyol Cd., Grup Center İş Merkezi, Pendik / İstanbul',
+        mapsQuery: 'Vizyon Davet Salonu Grup Center İş Merkezi Mustafa Akyol Cd. Yenişehir Pendik İstanbul',
+        note: 'Nikâh saati 14.30. Düğünümüz yemeklidir.'
       }
     }
   };
@@ -57,6 +68,19 @@
      1 — SAYFA SİSTEMİ: etkin sayfa, sıralı açılma, noktalar
      ============================================================ */
   var pages = $$('.scene');
+
+  // Her sayfa, davetiye görselindeki motiflerle çerçevelenir.
+  pages.forEach(function (sec) {
+    var m = document.createElement('div');
+    m.className = 'motifs'; m.setAttribute('aria-hidden', 'true');
+    [['tl', 'tl'], ['tr', 'tl'], ['bl', 'bl'], ['br', 'bl'], ['ml', 'side'], ['mr', 'side']].forEach(function (p) {
+      var im = new Image();
+      im.className = 'mo mo-' + p[0]; im.alt = ''; im.decoding = 'async';
+      im.src = 'assets/motif-' + p[1] + '.png';
+      m.appendChild(im);
+    });
+    sec.insertBefore(m, sec.firstChild);
+  });
   var dotsNav = $('#dots');
   var dotBtns = [];
   var activeIdx = -1;
@@ -236,9 +260,24 @@
   /* ============================================================
      5 — HARİTA
      ============================================================ */
-  var mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(CONFIG.mapsQuery);
-  var mapBtn = $('#mapBtn');
-  if (mapBtn) mapBtn.href = mapUrl;
+  $$('[data-map]').forEach(function (a) {
+    var ev = CONFIG.events[a.dataset.map];
+    if (ev) a.href = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(ev.mapsQuery);
+  });
+
+  /* ---------------- İLETİŞİM ---------------- */
+  (function () {
+    var ul = $('#contacts');
+    if (!ul) return;
+    var list = CONFIG.contacts.filter(function (c) { return c.tel; });
+    if (!list.length) { ul.hidden = true; return; }
+    list.forEach(function (c) {
+      var li = document.createElement('li');
+      var n = document.createElement('span'); n.className = 'contacts__n'; n.textContent = c.name;
+      var a = document.createElement('a'); a.href = 'tel:' + c.tel.replace(/[^\d+]/g, ''); a.textContent = c.tel;
+      li.appendChild(n); li.appendChild(a); ul.appendChild(li);
+    });
+  })();
 
   /* ============================================================
      6 — TAKVİME EKLE (.ics)
@@ -272,13 +311,13 @@
     var lines = [
       'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//eminecemile-emiresad//TR', 'CALSCALE:GREGORIAN',
       'BEGIN:VEVENT',
-      'UID:' + Date.now() + '@eminecemile-emiresad',
+      'UID:' + Date.now() + '-' + ev.label + '@eminecemile-emiresad',
       'DTSTAMP:' + icsStamp(new Date().toISOString()),
       'DTSTART:' + icsStamp(ev.start),
       'DTEND:' + icsStamp(ev.end),
       'SUMMARY:' + icsEsc(ev.title),
-      'LOCATION:' + icsEsc(CONFIG.venue),
-      'DESCRIPTION:' + icsEsc(CONFIG.couple + ' — davetiye: ' + CONFIG.siteUrl),
+      'LOCATION:' + icsEsc(ev.venue),
+      'DESCRIPTION:' + icsEsc(CONFIG.couple + (ev.note ? ' — ' + ev.note : '') + ' — davetiye: ' + CONFIG.siteUrl),
       'URL:' + CONFIG.siteUrl,
       'BEGIN:VALARM', 'TRIGGER:-P1D', 'ACTION:DISPLAY',
       'DESCRIPTION:' + icsEsc(ev.title),
@@ -304,7 +343,7 @@
   /* ============================================================
      7 — PAYLAŞ
      ============================================================ */
-  var shareText = CONFIG.couple + ' düğün davetiyesi · 29 Kasım 2026 Pazar, ' + CONFIG.venue + '\n' + CONFIG.siteUrl;
+  var shareText = CONFIG.couple + ' düğün davetiyesi · Kına 27 Kasım, Düğün 29 Kasım 2026\n' + CONFIG.siteUrl;
   var shareBtn = $('#shareBtn');
   if (shareBtn) {
     shareBtn.addEventListener('click', function () {
@@ -478,30 +517,21 @@
   });
 
   /* ============================================================
-     9 — KATILIM FORMU
+     9 — KATILIM FORMU (kına ve düğün ayrı)
      ============================================================ */
   var form = $('#rsvpForm');
   var thanks = $('#rsvpThanks');
-  var guestField = $('#guestField');
-  var countInput = $('#rsvpCount');
+  var KEYS = ['kina', 'dugun'];
+
+  function box(k)  { return $('input[name="ev-' + k + '"]', form); }
+  function body(k) { return $('.rs[data-ev="' + k + '"] .rs__body', form); }
 
   $$('.stepper__b').forEach(function (b) {
     b.addEventListener('click', function () {
-      var v = parseInt(countInput.value, 10) || 1;
-      v = Math.max(1, Math.min(12, v + parseInt(b.dataset.step, 10)));
-      countInput.value = v;
+      var input = $('input', b.parentNode);
+      var v = parseInt(input.value, 10) || 1;
+      input.value = Math.max(1, Math.min(12, v + parseInt(b.dataset.step, 10)));
     });
-  });
-
-  var eventsField = $('#eventsField');
-  function toggleGuestField() {
-    var st = $('input[name="status"]:checked', form);
-    var hide = !!st && st.value !== 'Katılıyorum';   // katılmıyorsa ikisi de gereksiz
-    if (guestField) guestField.hidden = hide;
-    if (eventsField) eventsField.hidden = hide;
-  }
-  $$('input[name="status"]', form || document).forEach(function (r) {
-    r.addEventListener('change', toggleGuestField);
   });
 
   function setError(name, msg) {
@@ -511,46 +541,58 @@
     if (field) field.classList.toggle('has-error', !!msg);
   }
 
-  function buildMessage(data) {
-    var lines = [
-      'Düğün Davetiyesi — Katılım Bildirimi',
-      'Ad Soyad: ' + data.name,
-      'Durum: ' + data.status
-    ];
-    if (data.status === 'Katılıyorum') {
-      lines.push('Kişi sayısı: ' + data.count);
-      lines.push('Davet: ' + (data.events.length ? data.events.join(', ') : 'Düğün'));
+  function toggleEvent(k) {
+    var on = box(k).checked;
+    body(k).hidden = !on;
+    if (on) {
+      // diğer davette ad yazılmışsa burada da hazır gelsin
+      var mine = $('#name-' + k), other = $('#name-' + KEYS.filter(function (x) { return x !== k; })[0]);
+      if (!mine.value && other && other.value) mine.value = other.value;
     }
-    if (data.note) lines.push('Not: ' + data.note);
+    $('#rsvpErr').textContent = '';
+  }
+
+  function buildMessage(entries) {
+    var lines = ['Düğün Davetiyesi — Katılım Bildirimi'];
+    entries.forEach(function (e) {
+      lines.push('');
+      lines.push(e.label.toUpperCase() + ' — katılacağım');
+      lines.push('Ad Soyad: ' + e.name);
+      lines.push('Kişi sayısı (siz dahil): ' + e.count);
+      if (e.note) lines.push('Not: ' + e.note);
+    });
     return lines.join('\n');
   }
 
   if (form) {
-    toggleGuestField();
+    KEYS.forEach(function (k) { box(k).addEventListener('change', function () { toggleEvent(k); }); });
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
-      var name = $('#rsvpName').value.trim();
-      var statusEl = $('input[name="status"]:checked', form);
-      var ok = true;
+      var entries = [], ok = true, firstBad = null;
+      $('#rsvpErr').textContent = '';
 
-      setError('rsvpName', ''); setError('status', '');
-      if (name.length < 3) { setError('rsvpName', 'Lütfen adınızı ve soyadınızı yazın.'); ok = false; }
-      if (!statusEl) { setError('status', 'Lütfen katılım durumunuzu seçin.'); ok = false; }
-      if (!ok) {
-        var firstErr = $('.has-error input, .has-error legend', form);
-        if (firstErr && firstErr.focus) firstErr.focus();
-        return;
-      }
+      KEYS.forEach(function (k) {
+        setError('name-' + k, '');
+        if (!box(k).checked) return;
+        var name = $('#name-' + k).value.trim();
+        if (name.length < 3) {
+          setError('name-' + k, 'Lütfen adınızı ve soyadınızı yazın.');
+          ok = false; if (!firstBad) firstBad = $('#name-' + k);
+        }
+        entries.push({
+          key: k,
+          label: CONFIG.events[k].label,
+          name: name,
+          count: parseInt($('#count-' + k).value, 10) || 1,
+          note: $('#note-' + k).value.trim()
+        });
+      });
 
-      var data = {
-        name: name,
-        status: statusEl.value,
-        count: statusEl.value === 'Katılıyorum' ? (parseInt(countInput.value, 10) || 1) : 0,
-        events: $$('input[name="events"]:checked', form).map(function (c) { return c.value; }),
-        note: $('#rsvpNote').value.trim(),
-        at: new Date().toISOString()
-      };
+      if (!entries.length) { $('#rsvpErr').textContent = 'Lütfen katılacağınız daveti işaretleyin.'; return; }
+      if (!ok) { if (firstBad) firstBad.focus(); return; }
 
+      var data = { entries: entries, at: new Date().toISOString() };
       store('ee-rsvp', JSON.stringify(data));
 
       if (CONFIG.rsvpEndpoint) {
@@ -561,22 +603,19 @@
         }).catch(function () { /* sessizce geç: WhatsApp yedeği var */ });
       }
 
-      var msg = buildMessage(data);
+      var msg = buildMessage(entries);
       var wa = CONFIG.rsvpWhatsapp
         ? 'https://wa.me/' + CONFIG.rsvpWhatsapp + '?text=' + encodeURIComponent(msg)
         : 'https://wa.me/?text=' + encodeURIComponent(msg);
       var waBtn = $('#waSend');
       if (waBtn) waBtn.href = wa;
 
-      var coming = data.status === 'Katılıyorum';
-      $('#thanksTitle').textContent = coming ? 'Teşekkür ederiz, ' + data.name.split(' ')[0] : 'Bilginiz için teşekkürler';
-      $('#thanksText').textContent = coming
-        ? 'Katılımınız bizim için çok kıymetli. ' + data.count + ' kişilik yeriniz ayrıldı; 29 Kasım’da sizi aramızda görmeyi sabırsızlıkla bekliyoruz.'
-        : 'Bildirdiğiniz için teşekkür ederiz. Dualarınızı bizden esirgemeyin; sizi özleyeceğiz.';
+      var total = entries.map(function (x) { return x.label + ' için ' + x.count + ' kişi'; }).join(', ');
+      $('#thanksTitle').textContent = 'Teşekkür ederiz, ' + entries[0].name.split(' ')[0];
+      $('#thanksText').textContent = 'Katılımınız bizim için çok kıymetli (' + total + '). Sizi aramızda görmeyi sabırsızlıkla bekliyoruz.';
 
       form.hidden = true;
       thanks.hidden = false;
-      // sayfa kilidiyle uyumlu olsun diye bölümün başına hizalanır
       var sec = form.closest('.scene');
       if (sec) sec.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
     });
@@ -592,15 +631,17 @@
     // Daha önce doldurulmuşsa alanları geri getir
     try {
       var saved = JSON.parse(store('ee-rsvp') || 'null');
-      if (saved && saved.name) {
-        $('#rsvpName').value = saved.name;
-        if (saved.note) $('#rsvpNote').value = saved.note;
-        if (saved.count) countInput.value = saved.count;
-        $$('input[name="status"]', form).forEach(function (r) { if (r.value === saved.status) r.checked = true; });
-        $$('input[name="events"]', form).forEach(function (c) { c.checked = (saved.events || []).indexOf(c.value) > -1; });
-        toggleGuestField();
+      if (saved && saved.entries) {
+        saved.entries.forEach(function (en) {
+          if (KEYS.indexOf(en.key) < 0) return;
+          box(en.key).checked = true;
+          $('#name-' + en.key).value = en.name || '';
+          $('#count-' + en.key).value = en.count || 1;
+          $('#note-' + en.key).value = en.note || '';
+          body(en.key).hidden = false;
+        });
       }
-    } catch (e) {}
+    } catch (err) {}
   }
 
   /* ============================================================

@@ -1,4 +1,4 @@
-# Emine Cemile & Emir Esad — Dijital Düğün Davetiyesi
+# Emine Cemile & Emir Es’ad — Dijital Düğün Davetiyesi
 
 Tek sayfalık, bağımlılığı olmayan (saf HTML/CSS/JS) dijital davetiye.
 Mobil öncelikli; WhatsApp içinden açıldığında da sorunsuz çalışır.
@@ -12,7 +12,12 @@ Mobil öncelikli; WhatsApp içinden açıldığında da sorunsuz çalışır.
 | `script.js` | Açılış, geri sayım, takvim, müzik, katılım formu |
 | `og.html` | WhatsApp önizleme kapağının kaynağı (1200×630) |
 | `assets/og-cover.png` | Üretilmiş önizleme kapağı |
+| `assets/motif-*.png` | Davetiye görselinden kırpılmış kenar motifleri (köşeler ve yan şerit) |
 | `assets/favicon.svg` | Sekme simgesi |
+
+## İletişim numaraları
+
+`script.js` içindeki `CONFIG.contacts` listesine telefonları yazın; numarası boş olan kişi sayfada gösterilmez.
 
 ## Yayına almadan önce yapılacak 3 ayar
 
